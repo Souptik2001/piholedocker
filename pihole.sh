@@ -18,22 +18,17 @@ docker run -d \
 printf 'Starting up pihole container '
 for i in $(seq 1 20); do
     if [ "$(docker inspect -f "{{.State.Health.Status}}" pihole)" == "healthy" ] ; then
+        sudo docker exec pihole sh -c "sudo apt update && sudo apt-get --yes upgrade && sudo apt-get install python3 --yes && sudo apt install --yes python3-pip && pip3 install flask"
         printf ' OK'
         echo -e "\n$(docker logs pihole 2> /dev/null | grep 'password:') for your pi-hole: https://${IP}/admin/"
         sudo docker exec -d pihole mkdir /home/network
-	sudo docker cp blockdomains.sh pihole:/home/network/
-	sudo docker cp unblockdomains.sh pihole:/home/network/
-	sudo docker cp network.py pihole:/home/network/
-	sudo docker exec -d pihole touch /home/network/log.txt
-	sudo docker exec -d pihole sudo chmod u+x /home/network/blockdomains.sh
-	sudo docker exec -d pihole sudo chmod u+x /home/network/unblockdomains.sh
-	sudo docker exec -d pihole sudo chmod u+x /home/network/network.py
-    sudo docker exec -d pihole sh -c "sudo apt update && sudo apt upgrade -y && sudo apt-get install python3 && sudo apt install python3-pip && pip3 install flask"
-	# sudo docker exec -d pihole sudo apt update
-	# sudo docker exec -d pihole sudo apt upgrade -y
-	# sudo docker exec -d pihole sudo apt-get install python3
-	# sudo docker exec -d pihole sudo apt install python3-pip
-	# sudo docker exec -d pihole pip3 install flask
+        sudo docker cp blockdomains.sh pihole:/home/network/
+        sudo docker cp unblockdomains.sh pihole:/home/network/
+        sudo docker cp network.py pihole:/home/network/
+        sudo docker exec -d pihole touch /home/network/log.txt
+        sudo docker exec -d pihole sudo chmod u+x /home/network/blockdomains.sh
+        sudo docker exec -d pihole sudo chmod u+x /home/network/unblockdomains.sh
+        sudo docker exec -d pihole sudo chmod u+x /home/network/network.py
 	exit 0
     else
         sleep 3
