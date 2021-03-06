@@ -28,11 +28,12 @@ for i in $(seq 1 20); do
 	sudo docker exec -d pihole sudo chmod u+x /home/network/blockdomains.sh
 	sudo docker exec -d pihole sudo chmod u+x /home/network/unblockdomains.sh
 	sudo docker exec -d pihole sudo chmod u+x /home/network/network.py
-	sudo docker exec -d pihole sudo apt update
-	sudo docker exec -d pihole sudo apt upgrade -y
-	sudo docker exec -d pihole sudo apt-get install python3
-	sudo docker exec -d pihole sudo apt install python3-pip
-	sudo docker exec -d pihole pip3 install flask
+    sudo docker exec -d pihole sh -c "sudo apt update && sudo apt upgrade -y && sudo apt-get install python3 && sudo apt install python3-pip && pip3 install flask"
+	# sudo docker exec -d pihole sudo apt update
+	# sudo docker exec -d pihole sudo apt upgrade -y
+	# sudo docker exec -d pihole sudo apt-get install python3
+	# sudo docker exec -d pihole sudo apt install python3-pip
+	# sudo docker exec -d pihole pip3 install flask
 	exit 0
     else
         sleep 3
